@@ -27,11 +27,11 @@ call plug#begin('~/.config/nvim/plugged')
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 " ---------------------------------------------------------------------------------------------------------------------
-" Language agnostic plugins {{{
+" language agnostic plugins {{{
 " ---------------------------------------------------------------------------------------------------------------------
 
 " Asynchronous maker and linter (needs linters to work)
-Plug 'benekastah/neomake', { 'on': ['Neomake'] }
+Plug 'benekastah/neomake'
 " Autocomplete
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Automatically closing pair stuff
@@ -50,20 +50,29 @@ Plug 'tpope/vim-sleuth'
 " Ruby/Rails {{{
 " ---------------------------------------------------------------------------------------------------------------------
 
-" Ruby support (plays nicely with tpope/rbenv-ctags)
-Plug 'vim-ruby/vim-ruby'
-" Slim syntax
-Plug 'slim-template/vim-slim'
-" Haml syntax
-Plug 'tpope/vim-haml'
-" Minitest syntax
-Plug 'sunaku/vim-ruby-minitest'
-" Rails support (:A, :R, :Rmigration, :Rextract)
-Plug 'tpope/vim-rails', { 'for': ['ruby', 'eruby', 'haml', 'slim'] }
-" Bundler support (plays nicely with tpope/gem-ctags)
-Plug 'tpope/vim-bundler', { 'for': ['ruby', 'eruby', 'haml', 'slim'] }
+" " Ruby support (plays nicely with tpope/rbenv-ctags)
+" Plug 'vim-ruby/vim-ruby'
+" " Slim syntax
+" Plug 'slim-template/vim-slim'
+" " Haml syntax
+" Plug 'tpope/vim-haml'
+" " Minitest syntax
+" Plug 'sunaku/vim-ruby-minitest'
+" " Rails support (:A, :R, :Rmigration, :Rextract)
+" Plug 'tpope/vim-rails', { 'for': ['ruby', 'eruby', 'haml', 'slim'] }
+" " Bundler support (plays nicely with tpope/gem-ctags)
+" Plug 'tpope/vim-bundler', { 'for': ['ruby', 'eruby', 'haml', 'slim'] }
 "}}}
+" ---------------------------------------------------------------------------------------------------------------------
+" Python {{{
+" ---------------------------------------------------------------------------------------------------------------------
 
+Plug 'davidhalter/jedi-vim'
+Plug 'zchee/deoplete-jedi'
+Plug 'janko-m/vim-test'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'Vimjas/vim-python-pep8-indent'
+"}}}
 " ---------------------------------------------------------------------------------------------------------------------
 " JS (ES6, React) {{{
 " ---------------------------------------------------------------------------------------------------------------------
@@ -123,7 +132,7 @@ Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
 " Lightline (simple status line)
 Plug 'itchyny/lightline.vim'
 " Buffers tabline
-Plug 'ap/vim-buftabline'
+" Plug 'ap/vim-buftabline'
 "}}}
 
 " ---------------------------------------------------------------------------------------------------------------------
@@ -131,13 +140,17 @@ Plug 'ap/vim-buftabline'
 " ---------------------------------------------------------------------------------------------------------------------
 
 " Fuzzy searching/replacing/etc
-Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 " Ag wrapper search and edit
 Plug 'dyng/ctrlsf.vim', { 'on': ['CtrlSF', 'CtrlSFToggle'] }
 " Git swiss-army knife
 Plug 'tpope/vim-fugitive'
 " Git changes showed on line numbers
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
+Plug 'mhinz/vim-signify'
+" REST Console
+Plug 'diepm/vim-rest-console', { 'for': 'rest' }
 " Color picker
 Plug 'KabbAmine/vCoolor.vim', { 'on': ['VCoolor', 'VCase'] }
 "}}}
@@ -218,6 +231,9 @@ Plug 'tmhedberg/matchit'
 Plug 'tpope/vim-repeat'
 " Delete all but current buffer
 Plug 'vim-scripts/BufOnly.vim', { 'on': 'Bonly' }
+
+Plug 'beloglazov/vim-online-thesaurus'
+Plug 'rhysd/vim-grammarous'
 "}}}
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -236,7 +252,7 @@ set fileencoding=utf-8                      " The encoding written to file.
 scriptencoding utf-8                        " Set utf-8 as default script encoding
 
 set shell=/bin/zsh                          " Setting shell to zsh
-set number                                  " Line numbers on
+" set number                                  " Line numbers on
 set showmode                                " Always show mode
 set showcmd                                 " Show commands as you type them
 set textwidth=120                           " Text width is 120 characters
@@ -244,7 +260,7 @@ set cmdheight=1                             " Command line height
 set pumheight=10                            " Completion window max size
 set noswapfile                              " New buffers will be loaded without creating a swapfile
 set hidden                                  " Enables to switch between unsaved buffers and keep undo history
-set clipboard+=unnamed                      " Allow to use system clipboard
+" set clipboard+=unnamed                      " Allow to use system clipboard
 set lazyredraw                              " Don't redraw while executing macros (better performance)
 set showmatch                               " Show matching brackets when text indicator is over them
 set matchtime=2                             " How many tenths of a second to blink when matching brackets
@@ -303,7 +319,7 @@ endif
 " 2.6 White characters settings {{{
 " ---------------------------------------------------------------------------------------------------------------------
 set list                                    " Show listchars by default
-set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮,trail:·,nbsp:·
+set listchars=tab:▸\ ,extends:❯,precedes:❮,trail:·,nbsp:·
 set showbreak=↪
 "}}}
 
@@ -379,7 +395,8 @@ let $LANG = 'en_US'
 " -----------------------------------------------------
 " 3.1 Setting leader {{{
 " -----------------------------------------------------
-let g:mapleader="\<space>"
+" let g:mapleader="\<space>"
+let g:mapleader=","
 "}}}
 
 " -----------------------------------------------------
@@ -653,6 +670,7 @@ let g:utils_autoswitch_kb_layout=0
 " -----------------------------------------------------
 let $FZF_DEFAULT_OPTS='--reverse'
 let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_buffers_jump = 1
 "}}}
 
 " -----------------------------------------------------
@@ -725,14 +743,19 @@ let g:lightline = {
 " 4.8 Neomake settings {{{
 " -----------------------------------------------------
 let g:neomake_verbose=0
+let g:neomake_python_enabled_makers = ['flake8']
+" let g:neomake_python_flake8_maker = { 'args': ['--ignore=E811'], }
+
+" let g:neomake_open_list = 2
 let g:neomake_warning_sign = {
-      \ 'text': '❯',
-      \ 'texthl': 'WarningMsg',
-      \ }
+  \ 'text': 'W',
+  \ 'texthl': 'WarningMsg',
+  \ }
 let g:neomake_error_sign = {
-      \ 'text': '❯',
-      \ 'texthl': 'ErrorMsg',
-      \ }
+  \ 'text': 'E',
+  \ 'texthl': 'ErrorMsg',
+  \ }
+
 "}}}
 
 " -----------------------------------------------------
@@ -753,6 +776,7 @@ let g:deoplete#file#enable_buffer_path=1
 let g:deoplete#sources={}
 let g:deoplete#sources._    = ['around', 'buffer', 'file', 'ultisnips']
 let g:deoplete#sources.ruby = ['around', 'buffer', 'member', 'file', 'ultisnips']
+let g:deoplete#sources.python = ['buffer', 'deoplete-jedi', 'member', 'file', 'ultisnips']
 let g:deoplete#sources.vim  = ['around', 'buffer', 'member', 'file', 'ultisnips']
 let g:deoplete#sources['javascript.jsx'] = ['around', 'buffer', 'file', 'ultisnips', 'ternjs']
 let g:deoplete#sources.css  = ['around', 'buffer', 'member', 'file', 'omni', 'ultisnips']
@@ -949,8 +973,8 @@ inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
 " -----------------------------------------------------
 " 5.9 CtrlSF {{{
 " -----------------------------------------------------
-nnoremap <leader>g :CtrlSF<Space>
-nnoremap <leader>G :CtrlSFToggle<Space>
+nnoremap <leadera :CtrlSF<Space>
+nnoremap <leader>A :CtrlSFToggle<Space>
 "}}}
 
 " -----------------------------------------------------
@@ -1017,7 +1041,7 @@ syntax on
 
 " Color scheme {{{
 set background=dark
-colorscheme hybrid
+colorscheme desert
 "}}}
 
 " Highlight VCS conflict markers {{{
@@ -1107,6 +1131,8 @@ augroup linters
   autocmd BufWritePost *.ts Neomake tsc
   " gem install rubocop
   autocmd BufWritePost *.rb Neomake rubocop
+" sudo apt-get install flake8
+autocmd BufWritePost *.py Neomake flake8
   " sudo apt-get install elixir
   autocmd BufWritePost *.ex Neomake elixir
   " apt-get install tidy
@@ -1125,7 +1151,20 @@ augroup END
 "}}}
 
 "}}}
+set omnifunc=jedi#completions
 
+let g:rainbow_active = 1
+nmap <leader><tab> :FZF<CR>
+let test#python#runner = 'nose'
+let test#strategy = "neomake"
+" nmap <silent> <leader>t :TestNearest<CR>
+" nmap <silent> <leader>T :TestFile<CR>
+" nmap <silent> <leader>a :TestSuite<CR>
+" nmap <silent> <leader>l :TestLast<CR>
+" nmap <silent> <leader>g :TestVisit<CR>
+
+
+nmap <silent> <leader>rr :source .vim/session<CR>
 " ======================================================================================================================
 " 8.0 Todo, Notes
 " ======================================================================================================================
@@ -1145,3 +1184,6 @@ augroup END
 "}}}
 
 "}}}
+
+let g:python_host_prog = '/home/yumax/w/bin/python2'
+let g:python3_host_prog = '/home/yumax/w/bin/python'

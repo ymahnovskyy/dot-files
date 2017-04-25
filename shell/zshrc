@@ -160,7 +160,7 @@ if [ -d $HOME/lib/elixir/bin ]; then
 fi
 
 # YARN package manager bin
-export PATH="$PATH:`yarn global bin`"
+# export PATH="$PATH:`yarn global bin`"
 
 # ZHS autosuggestions
 if [ -d $HOME/.zsh/zsh-autosuggestions ]; then
