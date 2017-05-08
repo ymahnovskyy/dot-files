@@ -1,12 +1,12 @@
 [user]
-    name = Martin Toma
-    email = martin.toma.svk@gmail.com
+  name = Yuriy Makhnovskyy
+  email = ymakhnovskyy@maven.co
 [credential]
     helper = cache --timeout=3600
 [core]
     excludesfile = ~/.gitignore
 [push]
-    default = simple
+    default = current
 [color]
     status = always
     ui = true
@@ -22,7 +22,6 @@
     ci = commit --verbose
     cim = commit --verbose --reedit-message=HEAD --reset-author
     amend = commit --amend --verbose
-    co = checkout
     pl = pull
     ps = push
     pom = push origin master
@@ -34,24 +33,55 @@
     br = branch
     lo = log --oneline -n 15
     lg = log --pretty=format:'%h | %cd | %an | %s' -n 15
-    ls = log --stat -n 5
     lol = log --oneline --graph --all --decorate
     g1 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%cr)%C(reset) %C(white)%s%C(reset) %C(bold white)— %cn%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
     g2 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cD%C(reset) %C(bold green)(%cr)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(bold white)— %cn%C(reset)' --abbrev-commit
     wc = whatchanged -p --abbrev-commit --pretty=medium
     unstage = reset HEAD --
     edit = "!nvim `git ls-files -m`"
+  d = difftool
+  co = checkout
+  ci = commit
+  s = status
+  last = log -1 HEAD
+  ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+  lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+  ld = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+  la = "!git config -l | grep alias | cut -c 7-"
+  dl = "!git ll -1"
+  dlc = diff --cached HEAD^
+  dr  = "!f() { git diff "$1"^.."$1"; }; f"
+  lc  = "!f() { git ll "$1"^.."$1"; }; f"
+  diffr  = "!f() { git diff "$1"^.."$1"; }; f"
+  f = "!git ls-files | grep -i"
+  gr = grep -Ii
+  r = reset
+  r1 = reset HEAD^
+  r2 = reset HEAD^^
+  sl = stash list
+  sa = stash apply
+  ss = stash save
+  logtree = log --graph --oneline --decorate --all
+
+[merge]
+  ff = false
 [github]
-    user = martin-svk
+    user = ymahnovskyy
 [branch]
     autosetuprebase = always
+
+[merge]
+  tool = vimdiff
+[mergetool]
+  prompt = true
+	path = nvim
+[mergetool "vimdiff"]
+  cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+	path = nvim
 [diff]
-    tool = nvimdiff
+	tool = vimdiff
+[difftool]
+  prompt = false
 [difftool "nvimdiff"]
-    cmd = diff_wrapper "$LOCAL" "$REMOTE"
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  cmd = nvim -d -u ~/.vimrc "$LOCAL" "$REMOTE"

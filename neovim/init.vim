@@ -209,6 +209,8 @@ Plug 'tomasr/molokai'
 Plug 'cocopon/iceberg.vim'
 " Tender
 Plug 'jacoborus/tender.vim'
+Plug 'morhetz/gruvbox'
+
 "}}}
 
 " ---------------------------------------------------------------------------------------------------------------------
@@ -555,7 +557,7 @@ nnoremap gp `[v`]
 nnoremap J mzJ`z
 
 " [S]plit line (sister to [J]oin lines) S is covered by cc.
-nnoremap S mzi<CR><ESC>`z
+" nnoremap S mzi<CR><ESC>`z
 
 " Easier fold toggling
 nnoremap ,z za
@@ -776,7 +778,7 @@ let g:deoplete#file#enable_buffer_path=1
 let g:deoplete#sources={}
 let g:deoplete#sources._    = ['around', 'buffer', 'file', 'ultisnips']
 let g:deoplete#sources.ruby = ['around', 'buffer', 'member', 'file', 'ultisnips']
-let g:deoplete#sources.python = ['buffer', 'deoplete-jedi', 'member', 'file', 'ultisnips']
+let g:deoplete#sources.python = ['deoplete-jedi', 'member', 'file', 'ultisnips', 'buffer']
 let g:deoplete#sources.vim  = ['around', 'buffer', 'member', 'file', 'ultisnips']
 let g:deoplete#sources['javascript.jsx'] = ['around', 'buffer', 'file', 'ultisnips', 'ternjs']
 let g:deoplete#sources.css  = ['around', 'buffer', 'member', 'file', 'omni', 'ultisnips']
@@ -973,7 +975,7 @@ inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
 " -----------------------------------------------------
 " 5.9 CtrlSF {{{
 " -----------------------------------------------------
-nnoremap <leadera :CtrlSF<Space>
+nnoremap <leader>a :CtrlSF<Space>
 nnoremap <leader>A :CtrlSFToggle<Space>
 "}}}
 
@@ -1185,5 +1187,10 @@ nmap <silent> <leader>rr :source .vim/session<CR>
 
 "}}}
 
-let g:python_host_prog = '/home/yumax/w/bin/python2'
-let g:python3_host_prog = '/home/yumax/w/bin/python'
+:set colorcolumn=81,82
+" TODO Add generating python virtualenv to install.sh
+" let g:python_host_prog = '/home/ymakhnovskyy/.config/neovim_virtualenv/bin/python'
+let g:python3_host_prog = '/home/ymakhnovskyy/.config/nvim_virtualenv/bin/python3'
+let g:jedi#force_py_version = 3
+
+set hlsearch

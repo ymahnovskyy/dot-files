@@ -100,10 +100,14 @@ echo -n "[ gitconfig ]"
 if [ ! -f ~/.gitconfig ]; then
   echo "    Creating gitconfig!"
   ln -sf $current_path/git/gitconfig ~/.gitconfig
+  git config --global merge.tool vimdiff
+  git config --global mergetool.vimdiff.path nvim
 elif $REPLACE_FILES; then
   echo "    Deleting old gitconfig!"
   rm ~/.gitconfig
   ln -sf $current_path/git/gitconfig ~/.gitconfig
+  git config --global merge.tool vimdiff
+  git config --global mergetool.vimdiff.path nvim
 else
   echo "    Keeping existing gitconfig!"
 fi
