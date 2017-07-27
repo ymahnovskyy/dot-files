@@ -35,7 +35,7 @@ Plug 'benekastah/neomake'
 " Autocomplete
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Automatically closing pair stuff
-Plug 'cohama/lexima.vim'
+" Plug 'cohama/lexima.vim'
 " Snippet support (C-j)
 Plug 'SirVer/ultisnips'
 " Commenting support (gc)
@@ -44,6 +44,10 @@ Plug 'tpope/vim-commentary'
 Plug 'bkad/CamelCaseMotion'
 " Heuristically set indent settings
 Plug 'tpope/vim-sleuth'
+
+" Rooter
+Plug 'airblade/vim-rooter'
+
 "}}}
 
 " ---------------------------------------------------------------------------------------------------------------------
@@ -120,7 +124,11 @@ Plug 'tpope/vim-git'
 " Tmux syntax
 Plug 'keith/tmux.vim'
 " Dockerfile
-Plug 'honza/dockerfile.vim'
+Plug 'docker/docker'
+
+" Cfengine
+Plug 'vim-scripts/Cfengine-version-3-syntax'
+
 "}}}
 
 " ---------------------------------------------------------------------------------------------------------------------
@@ -133,6 +141,13 @@ Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeFind', 'NERDTreeToggle'] }
 Plug 'itchyny/lightline.vim'
 " Buffers tabline
 " Plug 'ap/vim-buftabline'
+
+" Session management and start window improving.
+Plug 'mhinz/vim-startify'
+" Handles bracketed-paste-mode in vim (aka. automatic `:set paste`).
+Plug 'ConradIrwin/vim-bracketed-paste'
+
+
 "}}}
 
 " ---------------------------------------------------------------------------------------------------------------------
@@ -140,6 +155,7 @@ Plug 'itchyny/lightline.vim'
 " ---------------------------------------------------------------------------------------------------------------------
 
 " Fuzzy searching/replacing/etc
+Plug 'cloudhead/neovim-fuzzy'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 " Ag wrapper search and edit
@@ -222,7 +238,7 @@ Plug 'terryma/vim-expand-region'
 " Search for highlighted word with *
 Plug 'thinca/vim-visualstar'
 " Improve star by not jumping immediately
-Plug 'ironhouzi/vim-stim'
+" Plug 'ironhouzi/vim-stim'
 " Intelligent buffer closing
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 " Iabbrev auto-correction library
@@ -305,7 +321,6 @@ set nospell                                 " Disable checking by default (use <
 set ignorecase                              " Ignore case by default
 set smartcase                               " Make search case sensitive only if it contains uppercase letters
 set wrapscan                                " Search again from top when reached the bottom
-set nohlsearch                              " Don't highlight after search
 "}}}
 
 " ---------------------------------------------------------------------------------------------------------------------
@@ -335,9 +350,14 @@ filetype indent on
 " ---------------------------------------------------------------------------------------------------------------------
 " 2.8 Folding settings {{{
 " ---------------------------------------------------------------------------------------------------------------------
-set foldmethod=marker                       " Markers are used to specify folds.
+set foldmethod=indent                       " Markers are used to specify folds.
+set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldlevel=2                             " Start folding automatically from level 2
 set fillchars="fold: "                      " Characters to fill the statuslines and vertical separators
+
+" Folding
+nnoremap <Space> zA
+vnoremap <Space> zA
 "}}}
 
 " ---------------------------------------------------------------------------------------------------------------------
@@ -415,7 +435,6 @@ inoremap <up> <NOP>
 inoremap <down> <NOP>
 inoremap <left> <NOP>
 inoremap <right> <NOP>
-nnoremap <Space> <NOP>
 inoremap <F1> <NOP>
 nnoremap <F1> <NOP>
 nnoremap Q <NOP>
@@ -519,8 +538,9 @@ xnoremap . :norm.<CR>
 
 " Quick save and close buffer
 nnoremap ,w :w<CR>
-nnoremap <silent> ,c :Sayonara!<CR>
-nnoremap <silent> ,q :Sayonara<CR>
+nnoremap <silent> ,c :Sayonara<CR>
+nnoremap <silent> ,q :Sayonara!<CR>
+command BD  :Sayonara!
 
 " Yank and paste from clipboard
 nnoremap ,y "+y
@@ -747,6 +767,7 @@ let g:lightline = {
 let g:neomake_verbose=0
 let g:neomake_python_enabled_makers = ['flake8']
 " let g:neomake_python_flake8_maker = { 'args': ['--ignore=E811'], }
+" let g:neomake_python_nosetests_maker = { 'args': ['--ignore=E811'], }
 
 " let g:neomake_open_list = 2
 let g:neomake_warning_sign = {
@@ -778,7 +799,7 @@ let g:deoplete#file#enable_buffer_path=1
 let g:deoplete#sources={}
 let g:deoplete#sources._    = ['around', 'buffer', 'file', 'ultisnips']
 let g:deoplete#sources.ruby = ['around', 'buffer', 'member', 'file', 'ultisnips']
-let g:deoplete#sources.python = ['deoplete-jedi', 'member', 'file', 'ultisnips', 'buffer']
+let g:deoplete#sources.python = ['deoplete-jedi', 'member', 'file', 'ultisnips']
 let g:deoplete#sources.vim  = ['around', 'buffer', 'member', 'file', 'ultisnips']
 let g:deoplete#sources['javascript.jsx'] = ['around', 'buffer', 'file', 'ultisnips', 'ternjs']
 let g:deoplete#sources.css  = ['around', 'buffer', 'member', 'file', 'omni', 'ultisnips']
@@ -1139,12 +1160,8 @@ autocmd BufWritePost *.py Neomake flake8
   autocmd BufWritePost *.ex Neomake elixir
   " apt-get install tidy
   autocmd BufWritePost *.html Neomake tidy
-  " gem install haml_lint
-  autocmd BufWritePost *.haml Neomake hamllint
   " gem install scss-lint
   autocmd BufWritePost *.scss Neomake sasslint
-  " gem install mdl
-  autocmd BufWritePost *.md Neomake mdl
   " apt-get install shellcheck
   autocmd BufWritePost *.sh Neomake shellcheck
   " pip3 install vim-vint
@@ -1187,10 +1204,17 @@ nmap <silent> <leader>rr :source .vim/session<CR>
 
 "}}}
 
-:set colorcolumn=81,82
+set colorcolumn=81,82
+set tw=79
+
 " TODO Add generating python virtualenv to install.sh
 " let g:python_host_prog = '/home/ymakhnovskyy/.config/neovim_virtualenv/bin/python'
 let g:python3_host_prog = '/home/ymakhnovskyy/.config/nvim_virtualenv/bin/python3'
 let g:jedi#force_py_version = 3
+map <silent> <leader>bb oimport pdb; pdb.set_trace()<esc>
+map <silent> <leader>BB Oimport pdb; pdb.set_trace()<esc>
+
+set viewoptions=cursor,folds,slash,unix
 
 set hlsearch
+let g:startify_session_dir = '~/.config/nvim/startify_session_dir'

@@ -13,32 +13,32 @@
 [core]
     editor = nvim
 [alias]
-    a = add
-    aa = add --all
-    ap = add --patch
-    di = diff
-    ds = diff --staged
-    dt = difftool --no-prompt
-    ci = commit --verbose
-    cim = commit --verbose --reedit-message=HEAD --reset-author
-    amend = commit --amend --verbose
-    pl = pull
-    ps = push
-    pom = push origin master
-    pbm = push backup master
-    pod = push origin develop
-    pbd = push backup develop
-    rb = rebase -i HEAD~10
-    st = status -sb
-    br = branch
-    lo = log --oneline -n 15
-    lg = log --pretty=format:'%h | %cd | %an | %s' -n 15
-    lol = log --oneline --graph --all --decorate
-    g1 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%cr)%C(reset) %C(white)%s%C(reset) %C(bold white)— %cn%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
-    g2 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cD%C(reset) %C(bold green)(%cr)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(bold white)— %cn%C(reset)' --abbrev-commit
-    wc = whatchanged -p --abbrev-commit --pretty=medium
-    unstage = reset HEAD --
-    edit = "!nvim `git ls-files -m`"
+  a = add
+  aa = add --all
+  ap = add --patch
+  di = diff
+  ds = diff --staged
+  dt = difftool --no-prompt
+  ci = commit --verbose
+  cim = commit --verbose --reedit-message=HEAD --reset-author
+  amend = commit --amend --verbose
+  pl = pull
+  ps = push
+  pom = push origin master
+  pbm = push backup master
+  pod = push origin develop
+  pbd = push backup develop
+  rb = rebase -i HEAD~10
+  st = status -sb
+  br = branch
+  lo = log --oneline -n 15
+  lg = log --pretty=format:'%h | %cd | %an | %s' -n 15
+  lol = log --oneline --graph --all --decorate
+  g1 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%cr)%C(reset) %C(white)%s%C(reset) %C(bold white)— %cn%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
+  g2 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cD%C(reset) %C(bold green)(%cr)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(bold white)— %cn%C(reset)' --abbrev-commit
+  wc = whatchanged -p --abbrev-commit --pretty=medium
+  unstage = reset HEAD --
+  edit = "!nvim `git ls-files -m`"
   d = difftool
   co = checkout
   ci = commit
@@ -67,21 +67,22 @@
 [merge]
   ff = false
 [github]
-    user = ymahnovskyy
+  user = ymahnovskyy
 [branch]
-    autosetuprebase = always
+  autosetuprebase = always
 
 [merge]
   tool = vimdiff
 [mergetool]
   prompt = true
-	path = nvim
-[mergetool "vimdiff"]
+  path = nvim
+[mergetool "nvimmerge"]
   cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
-	path = nvim
+  path = nvim
 [diff]
-	tool = vimdiff
+  tool = vimdiff2
 [difftool]
   prompt = false
-[difftool "nvimdiff"]
+  path = nvim
+[difftool "vimdiff"]
   cmd = nvim -d -u ~/.vimrc "$LOCAL" "$REMOTE"
